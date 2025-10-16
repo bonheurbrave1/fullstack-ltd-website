@@ -1,11 +1,12 @@
 // pages/Contact.js
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { AnimatePresence } from 'framer-motion';
-import { 
-  FaMapMarkerAlt, 
-  FaPhone, 
-  FaEnvelope, 
+import React, { useState, useRef } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
+import { motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
+import {
+  FaMapMarkerAlt,
+  FaPhone,
+  FaEnvelope,
   FaClock,
   FaPaperPlane,
   FaLinkedin,
@@ -17,119 +18,206 @@ import {
   FaUser,
   FaBuilding,
   FaDollarSign,
-  FaComment
-} from 'react-icons/fa';
+  FaComment,
+} from "react-icons/fa";
 
 const Contact = ({ onCursorChange }) => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    company: '',
-    service: '',
-    budget: '',
-    timeline: '',
-    message: ''
+    name: "",
+    email: "",
+    company: "",
+    service: "",
+    budget: "",
+    timeline: "",
+    message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  
+  // Use useRef for reCAPTCHA
+  const recaptchaRef = useRef();
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+  // Use only ONE consistent site key
+  const SITE_KEY = "6LdTUuwrAAAAAJxsfIkmsr4pq50I-nsCOslzRSNB";
+
+  const handleRecaptchaChange = (token) => {
+    console.log("reCAPTCHA token received:", token ? "Yes" : "No");
+  };
+
+  const handleRecaptchaError = () => {
+    console.error("reCAPTCHA encountered an error");
+  };
+
+  const handleRecaptchaExpired = () => {
+    console.log("reCAPTCHA token expired");
+    recaptchaRef.current.reset();
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Get the current reCAPTCHA token
+    const token = recaptchaRef.current.getValue();
+    
+    console.log("Submit clicked, reCAPTCHA token:", token);
+
+    if (!token) {
+      alert("Please complete the reCAPTCHA verification");
+      return;
+    }
+
     setIsSubmitting(true);
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    console.log('Form submitted:', formData);
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    
-    // Reset form after success
-    setTimeout(() => {
-      setFormData({
-        name: '',
-        email: '',
-        company: '',
-        service: '',
-        budget: '',
-        timeline: '',
-        message: ''
+
+    try {
+      console.log("Sending request to server...", {
+        formData,
+        recaptchaToken: token.substring(0, 20) + "...",
       });
-      setIsSubmitted(false);
-    }, 5000);
+
+      const response = await fetch("https://fullstack.rw/api/send.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...formData,
+          recaptchaToken: token,
+        }),
+      });
+
+      console.log("Response status:", response.status);
+
+      const result = await response.json();
+      console.log("Server response:", result);
+
+      if (result.success) {
+        console.log("Form submitted successfully");
+        setIsSubmitted(true);
+        // Reset form
+        setFormData({
+          name: "",
+          email: "",
+          company: "",
+          service: "",
+          budget: "",
+          timeline: "",
+          message: "",
+        });
+        // Reset reCAPTCHA
+        recaptchaRef.current.reset();
+        setTimeout(() => setIsSubmitted(false), 5000);
+      } else {
+        console.error("Server returned error:", result);
+        alert(
+          result.message ||
+            `Failed to submit form. Error: ${
+              result.error_codes
+                ? result.error_codes.join(", ")
+                : "Unknown error"
+            }`
+        );
+        recaptchaRef.current.reset();
+      }
+    } catch (error) {
+      console.error("Network error:", error);
+      alert(
+        "Network error occurred. Please check your connection and try again."
+      );
+      recaptchaRef.current.reset();
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const contactInfo = [
     {
       icon: FaMapMarkerAlt,
-      title: 'Our Office',
-      details: ['Kigali, Rwanda', 'KG 123 St, Innovation District'],
-      color: 'from-purple-500 to-pink-500',
-      link: 'https://maps.google.com'
+      title: "Our Office",
+      details: ["Kigali, Rwanda", "KG 123 St, Innovation District"],
+      color: "from-purple-500 to-pink-500",
+      link: "https://maps.google.com",
     },
     {
       icon: FaPhone,
-      title: 'Phone & WhatsApp',
-      details: ['(+250) 796 688 978', 'Available 24/7'],
-      color: 'from-green-500 to-emerald-500',
-      link: 'tel:+250 796 688 978'
+      title: "Phone & WhatsApp",
+      details: ["(+250) 796 688 978", "Available 24/7"],
+      color: "from-green-500 to-emerald-500",
+      link: "tel:+250 796 688 978",
     },
     {
       icon: FaEnvelope,
-      title: 'Email',
-      details: ['info@fullstack.rw'],
-      color: 'from-blue-500 to-cyan-500',
-      link: 'mailto:info@fullstack.rw'
+      title: "Email",
+      details: ["info@fullstack.rw"],
+      color: "from-blue-500 to-cyan-500",
+      link: "mailto:info@fullstack.rw",
     },
     {
       icon: FaClock,
-      title: 'Business Hours',
-      details: ['Mon - Fri: 9:00 - 17:00', "week-end : closed"],
-      color: 'from-amber-500 to-orange-500'
-    }
+      title: "Business Hours",
+      details: ["Mon - Fri: 9:00 - 17:00", "week-end : closed"],
+      color: "from-amber-500 to-orange-500",
+    },
   ];
 
   const socialLinks = [
-    { icon: FaLinkedin, color: 'hover:text-blue-600', href: '#', label: 'LinkedIn' },
-    { icon: FaTwitter, color: 'hover:text-blue-400', href: '#', label: 'Twitter' },
-    { icon: FaFacebookF, color: 'hover:text-blue-800', href: '#', label: 'Facebook' },
-    { icon: FaWhatsapp, color: 'hover:text-green-500', href: '#', label: 'WhatsApp' },
-    { icon: FaTelegram, color: 'hover:text-blue-500', href: '#', label: 'Telegram' },
+    {
+      icon: FaLinkedin,
+      color: "hover:text-blue-600",
+      href: "#",
+      label: "LinkedIn",
+    },
+    {
+      icon: FaTwitter,
+      color: "hover:text-blue-400",
+      href: "#",
+      label: "Twitter",
+    },
+    {
+      icon: FaFacebookF,
+      color: "hover:text-blue-800",
+      href: "#",
+      label: "Facebook",
+    },
+    {
+      icon: FaWhatsapp,
+      color: "hover:text-green-500",
+      href: "#",
+      label: "WhatsApp",
+    },
+    {
+      icon: FaTelegram,
+      color: "hover:text-blue-500",
+      href: "#",
+      label: "Telegram",
+    },
   ];
 
   const services = [
-    'Web Development',
-    'Mobile App Development',
-    'UI/UX Design',
-    'Cloud Solutions',
-    'DevOps & CI/CD',
-    'Technical Consulting',
-    'Digital Transformation',
-    'Custom Software'
+    "Web Development",
+    "Mobile App Development",
+    "UI/UX Design",
+    "Cloud Solutions",
+    "DevOps & CI/CD",
+    "Technical Consulting",
+    "Digital Transformation",
+    "Custom Software",
   ];
 
   const budgetRanges = [
-    '$5,000 - $10,000',
-    '$10,000 - $25,000',
-    '$25,000 - $50,000',
-    '$50,000 - $100,000',
-    '$100,000+',
-    'Not sure yet'
+    "$5,000 - $10,000",
+    "$10,000 - $25,000",
+    "$25,000 - $50,000",
+    "$50,000 - $100,000",
+    "$100,000+",
+    "Not sure yet",
   ];
 
   const timelines = [
-    'Within 1 month',
-    '1-3 months',
-    '3-6 months',
-    '6-12 months',
-    'Flexible timeline'
+    "Within 1 month",
+    "1-3 months",
+    "3-6 months",
+    "6-12 months",
+    "Flexible timeline",
   ];
 
   return (
@@ -177,15 +265,18 @@ const Contact = ({ onCursorChange }) => {
             >
               <FaPaperPlane className="text-2xl text-white" />
             </motion.div>
-            
+
             <h1 className="text-5xl lg:text-7xl font-bold mb-6">
-              Let's <span className="bg-gradient-to-r from-amber-400 to-pink-500 bg-clip-text text-transparent">Talk</span>
+              Let's{" "}
+              <span className="bg-gradient-to-r from-amber-400 to-pink-500 bg-clip-text text-transparent">
+                Talk
+              </span>
             </h1>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8 leading-relaxed">
-              Ready to bring your ideas to life? We're here to help. Get in touch with our team and 
-              let's create something amazing together.
+              Ready to bring your ideas to life? We're here to help. Get in
+              touch with our team and let's create something amazing together.
             </p>
-            
+
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -201,7 +292,7 @@ const Contact = ({ onCursorChange }) => {
                 <FaComment className="text-sm" />
                 <span>Start Conversation</span>
               </motion.a>
-              
+
               <motion.a
                 href="tel:(+250) 796 688 978"
                 whileHover={{ scale: 1.05 }}
@@ -245,7 +336,9 @@ const Contact = ({ onCursorChange }) => {
                 viewport={{ once: true }}
                 className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-6 text-center hover:shadow-xl transition-all duration-300 group"
               >
-                <div className={`w-16 h-16 bg-gradient-to-r ${info.color} rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                <div
+                  className={`w-16 h-16 bg-gradient-to-r ${info.color} rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300`}
+                >
                   <info.icon className="text-white text-2xl" />
                 </div>
                 <h3 className="font-semibold text-gray-900 dark:text-white mb-3">
@@ -253,7 +346,10 @@ const Contact = ({ onCursorChange }) => {
                 </h3>
                 <div className="space-y-1">
                   {info.details.map((detail, i) => (
-                    <p key={i} className="text-gray-600 dark:text-gray-400 text-sm">
+                    <p
+                      key={i}
+                      className="text-gray-600 dark:text-gray-400 text-sm"
+                    >
                       {detail}
                     </p>
                   ))}
@@ -290,8 +386,8 @@ const Contact = ({ onCursorChange }) => {
                   whileHover={{ scale: 1.2, y: -2 }}
                   whileTap={{ scale: 0.9 }}
                   className={`w-12 h-12 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center text-gray-600 dark:text-gray-400 transition-all duration-300 ${social.color} shadow-lg hover:shadow-xl`}
-                  onMouseEnter={() => onCursorChange('hover')}
-                  onMouseLeave={() => onCursorChange('default')}
+                  onMouseEnter={() => onCursorChange("hover")}
+                  onMouseLeave={() => onCursorChange("default")}
                 >
                   <social.icon className="text-lg" />
                 </motion.a>
@@ -316,8 +412,8 @@ const Contact = ({ onCursorChange }) => {
                 Start Your Project
               </h2>
               <p className="text-lg text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
-                Tell us about your project and we'll get back to you within 24 hours with 
-                a detailed proposal and timeline.
+                Tell us about your project and we'll get back to you within 24
+                hours with a detailed proposal and timeline.
               </p>
 
               {/* Why Choose Us */}
@@ -326,12 +422,12 @@ const Contact = ({ onCursorChange }) => {
                   Why work with us?
                 </h3>
                 {[
-                  '12+ years of industry experience',
-                  '420+ successful projects delivered',
-                  '95% client satisfaction rate',
-                  'Dedicated project managers',
-                  'Agile development methodology',
-                  '24/7 support & maintenance'
+                  "12+ years of industry experience",
+                  "420+ successful projects delivered",
+                  "95% client satisfaction rate",
+                  "Dedicated project managers",
+                  "Agile development methodology",
+                  "24/7 support & maintenance",
                 ].map((benefit, index) => (
                   <motion.div
                     key={benefit}
@@ -342,7 +438,9 @@ const Contact = ({ onCursorChange }) => {
                     className="flex items-center space-x-3"
                   >
                     <FaCheckCircle className="text-green-500 text-lg flex-shrink-0" />
-                    <span className="text-gray-700 dark:text-gray-300">{benefit}</span>
+                    <span className="text-gray-700 dark:text-gray-300">
+                      {benefit}
+                    </span>
                   </motion.div>
                 ))}
               </div>
@@ -355,10 +453,12 @@ const Contact = ({ onCursorChange }) => {
                 viewport={{ once: true }}
                 className="bg-gradient-to-r from-purple-600 to-blue-500 rounded-2xl p-6 text-white"
               >
-                <h4 className="font-semibold text-lg mb-2">Quick Response Guaranteed</h4>
+                <h4 className="font-semibold text-lg mb-2">
+                  Quick Response Guaranteed
+                </h4>
                 <p className="text-purple-100 text-sm">
-                  We respond to all inquiries within 2 hours during business hours. 
-                  Emergency support available 24/7 for existing clients.
+                  We respond to all inquiries within 2 hours during business
+                  hours. Emergency support available 24/7 for existing clients.
                 </p>
               </motion.div>
             </motion.div>
@@ -391,7 +491,8 @@ const Contact = ({ onCursorChange }) => {
                         Message Sent Successfully!
                       </h3>
                       <p className="text-gray-600 dark:text-gray-400 mb-6">
-                        Thank you for reaching out. We'll get back to you within 24 hours.
+                        Thank you for reaching out. We'll get back to you within
+                        24 hours.
                       </p>
                       <motion.button
                         whileHover={{ scale: 1.05 }}
@@ -419,7 +520,12 @@ const Contact = ({ onCursorChange }) => {
                               type="text"
                               name="name"
                               value={formData.name}
-                              onChange={handleChange}
+                              onChange={(e) =>
+                                setFormData({
+                                  ...formData,
+                                  name: e.target.value,
+                                })
+                              }
                               required
                               className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                               placeholder="Your full name"
@@ -434,7 +540,12 @@ const Contact = ({ onCursorChange }) => {
                               type="email"
                               name="email"
                               value={formData.email}
-                              onChange={handleChange}
+                              onChange={(e) =>
+                                setFormData({
+                                  ...formData,
+                                  email: e.target.value,
+                                })
+                              }
                               required
                               className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                               placeholder="your@email.com"
@@ -451,7 +562,12 @@ const Contact = ({ onCursorChange }) => {
                             type="text"
                             name="company"
                             value={formData.company}
-                            onChange={handleChange}
+                            onChange={(e) =>
+                              setFormData({
+                                ...formData,
+                                company: e.target.value,
+                              })
+                            }
                             className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                             placeholder="Your company name"
                           />
@@ -464,12 +580,19 @@ const Contact = ({ onCursorChange }) => {
                           <select
                             name="service"
                             value={formData.service}
-                            onChange={handleChange}
+                            onChange={(e) =>
+                              setFormData({
+                                ...formData,
+                                service: e.target.value,
+                              })
+                            }
                             className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                           >
                             <option value="">Select a service</option>
-                            {services.map(service => (
-                              <option key={service} value={service}>{service}</option>
+                            {services.map((service) => (
+                              <option key={service} value={service}>
+                                {service}
+                              </option>
                             ))}
                           </select>
                         </div>
@@ -483,12 +606,19 @@ const Contact = ({ onCursorChange }) => {
                             <select
                               name="budget"
                               value={formData.budget}
-                              onChange={handleChange}
+                              onChange={(e) =>
+                                setFormData({
+                                  ...formData,
+                                  budget: e.target.value,
+                                })
+                              }
                               className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                             >
                               <option value="">Select budget range</option>
-                              {budgetRanges.map(budget => (
-                                <option key={budget} value={budget}>{budget}</option>
+                              {budgetRanges.map((budget) => (
+                                <option key={budget} value={budget}>
+                                  {budget}
+                                </option>
                               ))}
                             </select>
                           </div>
@@ -499,12 +629,19 @@ const Contact = ({ onCursorChange }) => {
                             <select
                               name="timeline"
                               value={formData.timeline}
-                              onChange={handleChange}
+                              onChange={(e) =>
+                                setFormData({
+                                  ...formData,
+                                  timeline: e.target.value,
+                                })
+                              }
                               className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                             >
                               <option value="">Select timeline</option>
-                              {timelines.map(timeline => (
-                                <option key={timeline} value={timeline}>{timeline}</option>
+                              {timelines.map((timeline) => (
+                                <option key={timeline} value={timeline}>
+                                  {timeline}
+                                </option>
                               ))}
                             </select>
                           </div>
@@ -517,7 +654,12 @@ const Contact = ({ onCursorChange }) => {
                           <textarea
                             name="message"
                             value={formData.message}
-                            onChange={handleChange}
+                            onChange={(e) =>
+                              setFormData({
+                                ...formData,
+                                message: e.target.value,
+                              })
+                            }
                             required
                             rows={6}
                             className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 bg-white dark:bg-gray-800 text-gray-900 dark:text-white resize-none"
@@ -525,20 +667,33 @@ const Contact = ({ onCursorChange }) => {
                           />
                         </div>
 
+                        {/* Fixed ReCAPTCHA Component */}
+                        <ReCAPTCHA
+                          ref={recaptchaRef}
+                          sitekey={SITE_KEY}
+                          onChange={handleRecaptchaChange}
+                          onErrored={handleRecaptchaError}
+                          onExpired={handleRecaptchaExpired}
+                        />
+
                         <motion.button
                           type="submit"
                           disabled={isSubmitting}
                           whileHover={{ scale: isSubmitting ? 1 : 1.05 }}
                           whileTap={{ scale: isSubmitting ? 1 : 0.95 }}
                           className="w-full bg-gradient-to-r from-purple-600 to-blue-500 text-white py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                          onMouseEnter={() => onCursorChange('cta')}
-                          onMouseLeave={() => onCursorChange('default')}
+                          onMouseEnter={() => onCursorChange("cta")}
+                          onMouseLeave={() => onCursorChange("default")}
                         >
                           {isSubmitting ? (
                             <>
                               <motion.div
                                 animate={{ rotate: 360 }}
-                                transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                                transition={{
+                                  duration: 1,
+                                  repeat: Infinity,
+                                  ease: "linear",
+                                }}
                                 className="w-5 h-5 border-2 border-white border-t-transparent rounded-full"
                               />
                               <span>Sending...</span>
@@ -597,7 +752,7 @@ const Contact = ({ onCursorChange }) => {
                 className="rounded-3xl"
               />
             </div>
-            
+
             <div className="p-6 bg-gray-50 dark:bg-gray-700">
               <div className="flex flex-col md:flex-row justify-between items-center">
                 <div>

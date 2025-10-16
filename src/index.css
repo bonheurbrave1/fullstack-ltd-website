@@ -1,1 +1,15 @@
 @import "tailwindcss";
+
+
+.g-recaptcha {
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+  }
+  
+  /* For the react package */
+  .recaptcha-container {
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+  }

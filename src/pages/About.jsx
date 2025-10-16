@@ -36,14 +36,14 @@ const About = ({ onCursorChange }) => {
       social: { linkedin: '#', github: '#' }
     },
     {
-      name: 'Emily Rodriguez',
-      role: 'Head of Design',
+      name: 'Agatesi Chartine',
+      role: 'Assistant Secretary',
       image: '/api/placeholder/300/300',
       bio: 'Award-winning designer with a passion for user-centered design principles.',
       social: { linkedin: '#', twitter: '#' }
     },
     {
-      name: 'David Kim',
+      name: 'Bonheur Ndikumwenayo',
       role: 'Lead Developer',
       image: '/api/placeholder/300/300',
       bio: 'Full-stack wizard specializing in React, Node.js, and cloud technologies.',
