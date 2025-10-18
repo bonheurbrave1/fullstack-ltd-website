@@ -85,15 +85,17 @@ const Navigation = ({ onCursorChange }) => {
               </Link>
             ))}
             
+            <Link target='_blank' to={"https://fullstacksoftware.ltd/index.php"}>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="bg-gradient-to-r from-purple-600 to-blue-500 text-white px-6 py-2.5 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
               onMouseEnter={() => onCursorChange('cta')}
               onMouseLeave={() => onCursorChange('default')}
-            >
-              Get Started
+              >
+              Domain Names Registration
             </motion.button>
+              </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -129,9 +131,11 @@ const Navigation = ({ onCursorChange }) => {
               </Link>
             ))}
             <div className="px-6 py-3">
+              <Link target='_blank' to={"https://fullstacksoftware.ltd/index.php"}>
               <button className="w-full bg-gradient-to-r from-purple-600 to-blue-500 text-white px-6 py-3 rounded-full font-semibold shadow-lg">
-                Get Started
+                Domain Names Registration
               </button>
+              </Link>
             </div>
           </div>
         </motion.div>
