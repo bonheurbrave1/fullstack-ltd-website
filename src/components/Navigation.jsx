@@ -85,7 +85,7 @@ const Navigation = ({ onCursorChange }) => {
               </Link>
             ))}
             
-            <Link target='_blank' to={"https://fullstacksoftware.ltd/index.php"}>
+            <Link target='_blank' to="/domain-name">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -131,7 +131,7 @@ const Navigation = ({ onCursorChange }) => {
               </Link>
             ))}
             <div className="px-6 py-3">
-              <Link target='_blank' to={"https://fullstacksoftware.ltd/index.php"}>
+              <Link target='_blank' to="/domain-name">
               <button className="w-full bg-gradient-to-r from-purple-600 to-blue-500 text-white px-6 py-3 rounded-full font-semibold shadow-lg">
                 Domain Names Registration
               </button>

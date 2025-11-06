@@ -7,6 +7,11 @@ import {
   Route,
   useLocation,
 } from "react-router-dom";
+import { Toaster } from 'react-hot-toast';
+
+// Import Providers
+import { AuthProvider } from './context/AuthContext';
+import { CartProvider } from './context/CartContext';
 
 // Components
 import LoadingScreen from "./components/LoadingScreen";
@@ -20,6 +25,14 @@ import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop.jsx";
 import Cursor from "./components/Cursor";
 import { Helmet } from "react-helmet-async";
+import Navbar from './components/layout/Navbar';
+import DomainHome from "./pages/DomainHome.jsx";
+import DomainSearch from './pages/DomainSearch';
+import HostingPlans from './pages/HostingPlans';
+import Dashboard from './pages/Dashboard'
+import Auth from './pages/Auth';
+import Cart from './pages/Cart';
+import Checkout from './pages/Checkout';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -81,40 +94,93 @@ function App() {
         </script>
       </Helmet>
 
-      <Router>
-        <div className="App bg-white min-h-screen">
-          <Cursor variant={cursorVariant} />
-          <ScrollToTop />
-          <Navigation onCursorChange={setCursorVariant} />
+      {/* Wrap everything with Providers */}
+      <AuthProvider>
+        <CartProvider>
+          <Router>
+            <div className="App bg-white min-h-screen">
+              <Cursor variant={cursorVariant} />
+              <ScrollToTop />
+              <Navigation onCursorChange={setCursorVariant} />
 
-          <AnimatePresence mode="wait">
-            <Routes>
-              <Route
-                path="/"
-                element={<Home onCursorChange={setCursorVariant} />}
-              />
-              <Route
-                path="/about"
-                element={<About onCursorChange={setCursorVariant} />}
-              />
-              <Route
-                path="/services"
-                element={<Services onCursorChange={setCursorVariant} />}
-              />
-              <Route
-                path="/portfolio"
-                element={<Portfolio onCursorChange={setCursorVariant} />}
-              />
-              <Route
-                path="/contact"
-                element={<Contact onCursorChange={setCursorVariant} />}
-              />
-            </Routes>
-          </AnimatePresence>
+              <AnimatePresence mode="wait">
+                <Routes>
+                  <Route
+                    path="/"
+                    element={<Home onCursorChange={setCursorVariant} />}
+                  />
+                  <Route
+                    path="/about"
+                    element={<About onCursorChange={setCursorVariant} />}
+                  />
+                  <Route
+                    path="/services"
+                    element={<Services onCursorChange={setCursorVariant} />}
+                  />
+                  <Route
+                    path="/portfolio"
+                    element={<Portfolio onCursorChange={setCursorVariant} />}
+                  />
+                  <Route
+                    path="/contact"
+                    element={<Contact onCursorChange={setCursorVariant} />}
+                  />
 
-          <Footer onCursorChange={setCursorVariant} />
-        </div>
-      </Router>
+                  <Route
+                    path="/domain-name"
+                    element={<DomainHome onCursorChange={setCursorVariant} />}
+                  />
+                  <Route 
+                    path="/domains" 
+                    element={<DomainSearch onCursorChange={setCursorVariant}/>} 
+                  />
+                  <Route 
+                    path="/hosting" 
+                    element={<HostingPlans onCursorChange={setCursorVariant}/>} 
+                  />
+                  <Route 
+                    path="/dashboard/*" 
+                    element={<Dashboard onCursorChange={setCursorVariant}/>} 
+                  />
+                  <Route 
+                    path="/auth/:type" 
+                    element={<Auth onCursorChange={setCursorVariant}/>} 
+                  />
+                  <Route 
+                    path="/cart" 
+                    element={<Cart onCursorChange={setCursorVariant}/>} 
+                  />
+                  <Route 
+                    path="/checkout" 
+                    element={<Checkout onCursorChange={setCursorVariant}/>} 
+                  />
+                </Routes>
+              </AnimatePresence>
+
+              <Footer onCursorChange={setCursorVariant} />
+              
+              {/* Add Toaster for notifications */}
+              <Toaster 
+                position="top-right"
+                toastOptions={{
+                  duration: 4000,
+                  style: {
+                    background: '#363636',
+                    color: '#fff',
+                  },
+                  success: {
+                    duration: 3000,
+                    theme: {
+                      primary: 'green',
+                      secondary: 'black',
+                    },
+                  },
+                }}
+              />
+            </div>
+          </Router>
+        </CartProvider>
+      </AuthProvider>
     </>
   );
 }
