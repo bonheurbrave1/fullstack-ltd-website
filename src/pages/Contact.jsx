@@ -3,6 +3,8 @@ import React, { useState, useRef } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { motion } from "framer-motion";
 import { AnimatePresence } from "framer-motion";
+import { IoIosCall } from "react-icons/io";
+
 import {
   FaMapMarkerAlt,
   FaPhone,
@@ -299,7 +301,7 @@ const Contact = ({ onCursorChange }) => {
                 whileTap={{ scale: 0.95 }}
                 className="border-2 border-white/30 text-white px-8 py-4 rounded-full font-bold text-lg backdrop-blur-lg hover:bg-white/10 transition-all duration-300 flex items-center justify-center space-x-2"
               >
-                <FaPhone className="text-sm" />
+                <IoIosCall size={24} className="text-sm" />
                 <span>Call Now</span>
               </motion.a>
             </motion.div>

@@ -11,6 +11,9 @@ import {
   FaShoppingCart
 } from 'react-icons/fa';
 import proj1 from "../assets/projects/proj1.png"
+import proj2 from "../assets/projects/proj2.png"
+import proj3 from "../assets/projects/proj3.png"
+import proj4 from "../assets/projects/proj4.png"
 
 
 const Portfolio = ({ onCursorChange }) => {
@@ -40,6 +43,51 @@ const Portfolio = ({ onCursorChange }) => {
       duration: '1 month',
       results: 'Increased user engagement by 45% and reduced reporting time by 70%'
     },
+    {
+      id: 2,
+      title: 'Spark Holdings Group Ltd',
+      category: 'web',
+      description: 'A  website for the Spark Holdings Group Ltd',
+      image: proj3,
+      technologies: ["NextJS","Postgre Sql","Tailwindcss" , "Framer-motion"],
+      features: ['Official website for spark holdings'],
+      liveUrl: 'https://sparkholding.rw/',
+      githubUrl: '#',
+      client: 'Spark Holdings Group Ltd',
+      duration: '2 Week',
+      results: 'official website launched successfully'
+    },
+    
+    {
+      id: 3,
+      title: 'Elimo Real Estate',
+      category: 'web',
+      description: 'A Real estate  website for the Elimo Real estate',
+      image: proj2,
+      technologies: ["PHP","CSS","HTML5" , "Bootstrap5"],
+      features: ['Official website for ads'],
+      liveUrl: 'https://elimo.rw/',
+      githubUrl: '#',
+      client: 'Elimo Real estate',
+      duration: '2 Week',
+      results: ''
+    },
+    
+    {
+      id: 4,
+      title: 'Loan MS + Accounting system',
+      category: 'web',
+      description: 'A Real Web application for loan management and accounting system',
+      image: proj4,
+      technologies: ["Mysql","Crone","Bootstrap5" , "PHP"],
+      features: ['Official Application for tracking the loans payment and management hance accounting management '],
+      liveUrl: 'https://fullstack.rw/',
+      githubUrl: '#',
+      client: '',
+      duration: '5 Months',
+      results: ''
+    },
+
     
   ];
 

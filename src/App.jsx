@@ -6,12 +6,13 @@ import {
   Routes,
   Route,
   useLocation,
+  Navigate,
 } from "react-router-dom";
-import { Toaster } from 'react-hot-toast';
+import { Toaster } from "react-hot-toast";
 
 // Import Providers
-import { AuthProvider } from './context/AuthContext';
-import { CartProvider } from './context/CartContext';
+import { AuthProvider } from "./context/AuthContext";
+import { CartProvider } from "./context/CartContext";
 
 // Components
 import LoadingScreen from "./components/LoadingScreen";
@@ -25,14 +26,16 @@ import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop.jsx";
 import Cursor from "./components/Cursor";
 import { Helmet } from "react-helmet-async";
-import Navbar from './components/layout/Navbar';
+
+
+import Navbar from "./components/layout/Navbar";
 import DomainHome from "./pages/DomainHome.jsx";
-import DomainSearch from './pages/DomainSearch';
-import HostingPlans from './pages/HostingPlans';
-import Dashboard from './pages/Dashboard'
-import Auth from './pages/Auth';
-import Cart from './pages/Cart';
-import Checkout from './pages/Checkout';
+import DomainSearch from "./pages/DomainSearch";
+import HostingPlans from "./pages/HostingPlans";
+import Dashboard from "./pages/Dashboard";
+import Auth from "./pages/Auth";
+import Cart from "./pages/Cart";
+import Checkout from "./pages/Checkout";
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -68,10 +71,7 @@ function App() {
         />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://fullstack.rw" />
-        <meta
-          property="og:image"
-          content="https://fullstack.rw"
-        />
+        <meta property="og:image" content="https://fullstack.rw" />
 
         <link rel="canonical" href="https://fullstack.rw" />
 
@@ -105,6 +105,7 @@ function App() {
 
               <AnimatePresence mode="wait">
                 <Routes>
+                <Route path="*" element={<Navigate to={"/"}/>}/>
                   <Route
                     path="/"
                     element={<Home onCursorChange={setCursorVariant} />}
@@ -124,55 +125,26 @@ function App() {
                   <Route
                     path="/contact"
                     element={<Contact onCursorChange={setCursorVariant} />}
-                  />
-
-                  <Route
-                    path="/domain-name"
-                    element={<DomainHome onCursorChange={setCursorVariant} />}
-                  />
-                  <Route 
-                    path="/domains" 
-                    element={<DomainSearch onCursorChange={setCursorVariant}/>} 
-                  />
-                  <Route 
-                    path="/hosting" 
-                    element={<HostingPlans onCursorChange={setCursorVariant}/>} 
-                  />
-                  <Route 
-                    path="/dashboard/*" 
-                    element={<Dashboard onCursorChange={setCursorVariant}/>} 
-                  />
-                  <Route 
-                    path="/auth/:type" 
-                    element={<Auth onCursorChange={setCursorVariant}/>} 
-                  />
-                  <Route 
-                    path="/cart" 
-                    element={<Cart onCursorChange={setCursorVariant}/>} 
-                  />
-                  <Route 
-                    path="/checkout" 
-                    element={<Checkout onCursorChange={setCursorVariant}/>} 
-                  />
+                  />{" "}
                 </Routes>
               </AnimatePresence>
 
               <Footer onCursorChange={setCursorVariant} />
-              
+
               {/* Add Toaster for notifications */}
-              <Toaster 
+              <Toaster
                 position="top-right"
                 toastOptions={{
                   duration: 4000,
                   style: {
-                    background: '#363636',
-                    color: '#fff',
+                    background: "#363636",
+                    color: "#fff",
                   },
                   success: {
                     duration: 3000,
                     theme: {
-                      primary: 'green',
-                      secondary: 'black',
+                      primary: "green",
+                      secondary: "black",
                     },
                   },
                 }}
