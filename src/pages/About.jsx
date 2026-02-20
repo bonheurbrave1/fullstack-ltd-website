@@ -30,14 +30,14 @@ const About = ({ onCursorChange }) => {
     },
     {
       name: 'Jean Ntazinda',
-      role: 'Chief Accountant Officer',
+      role: 'Chief Finance Officer',
       image: '/api/placeholder/300/300',
       bio: 'Expert in cloud architecture and scalable systems. Loves solving complex problems.',
       social: { linkedin: '#', github: '#' }
     },
     {
       name: 'Agatesi Chartine',
-      role: 'Assistant Secretary',
+      role: 'Admnsistrative Assistant',
       image: '/api/placeholder/300/300',
       bio: 'Award-winning designer with a passion for user-centered design principles.',
       social: { linkedin: '#', twitter: '#' }
@@ -47,6 +47,13 @@ const About = ({ onCursorChange }) => {
       role: 'Lead Developer',
       image: '/api/placeholder/300/300',
       bio: 'Full-stack wizard specializing in React, Node.js, and cloud technologies.',
+      social: { linkedin: '#', github: '#' }
+    },
+    {
+      name: 'ISHIMWE GHISLAIN',
+      role: 'Software Developer',
+      image: '/api/placeholder/300/300',
+      bio: 'Full-Stack Engineer | Next.js, React, Node | PostgreSQL, MongoDB | TypeScript | Mobile & Blockchain DApps |',
       social: { linkedin: '#', github: '#' }
     },
   ];
