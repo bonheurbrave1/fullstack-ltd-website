@@ -11,8 +11,7 @@ import {
   FaEnvelope,
   FaClock,
   FaPaperPlane,
-  FaLinkedin,
-  FaTwitter,
+  FaLinkedinIn,
   FaFacebookF,
   FaWhatsapp,
   FaTelegram,
@@ -21,7 +20,9 @@ import {
   FaBuilding,
   FaDollarSign,
   FaComment,
+  FaInstagram
 } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 
 const Contact = ({ onCursorChange }) => {
   const [formData, setFormData] = useState({
@@ -35,7 +36,7 @@ const Contact = ({ onCursorChange }) => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  
+
   // Use useRef for reCAPTCHA
   const recaptchaRef = useRef();
 
@@ -60,7 +61,7 @@ const Contact = ({ onCursorChange }) => {
 
     // Get the current reCAPTCHA token
     const token = recaptchaRef.current.getValue();
-    
+
     console.log("Submit clicked, reCAPTCHA token:", token);
 
     if (!token) {
@@ -112,11 +113,10 @@ const Contact = ({ onCursorChange }) => {
         console.error("Server returned error:", result);
         alert(
           result.message ||
-            `Failed to submit form. Error: ${
-              result.error_codes
-                ? result.error_codes.join(", ")
-                : "Unknown error"
-            }`
+          `Failed to submit form. Error: ${result.error_codes
+            ? result.error_codes.join(", ")
+            : "Unknown error"
+          }`
         );
         recaptchaRef.current.reset();
       }
@@ -163,16 +163,22 @@ const Contact = ({ onCursorChange }) => {
 
   const socialLinks = [
     {
-      icon: FaLinkedin,
+      icon: FaLinkedinIn,
       color: "hover:text-blue-600",
-      href: "#",
+      href: "https://www.linkedin.com/in/fullstack-software-aa01153b3",
       label: "LinkedIn",
     },
     {
-      icon: FaTwitter,
+      icon: FaXTwitter,
       color: "hover:text-blue-400",
-      href: "#",
-      label: "Twitter",
+      href: "https://x.com/software36770?s=11",
+      label: "X",
+    },
+    {
+      icon: FaInstagram,
+      color: "hover:text-pink-600",
+      href: "https://www.instagram.com/fullstack_software?igsh=MWI3b2k0em1mYXdobA%3D%3D&utm_source=qr",
+      label: "Instagram",
     },
     {
       icon: FaFacebookF,
@@ -385,6 +391,8 @@ const Contact = ({ onCursorChange }) => {
                 <motion.a
                   key={social.label}
                   href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   whileHover={{ scale: 1.2, y: -2 }}
                   whileTap={{ scale: 0.9 }}
                   className={`w-12 h-12 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center text-gray-600 dark:text-gray-400 transition-all duration-300 ${social.color} shadow-lg hover:shadow-xl`}

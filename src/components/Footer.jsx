@@ -2,24 +2,24 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { 
-  FaFacebookF, 
-  FaTwitter, 
-  FaLinkedinIn, 
+import {
+  FaFacebookF,
+  FaLinkedinIn,
   FaInstagram,
   FaMapMarkerAlt,
   FaPhone,
   FaEnvelope
 } from 'react-icons/fa';
+import { FaXTwitter } from 'react-icons/fa6';
 
 const Footer = ({ onCursorChange }) => {
   const currentYear = new Date().getFullYear();
 
   const socialLinks = [
     { icon: FaFacebookF, href: '#', color: 'hover:text-blue-600' },
-    { icon: FaTwitter, href: '#', color: 'hover:text-blue-400' },
-    { icon: FaLinkedinIn, href: '#', color: 'hover:text-blue-700' },
-    { icon: FaInstagram, href: '#', color: 'hover:text-pink-600' },
+    { icon: FaXTwitter, href: 'https://x.com/software36770?s=11', color: 'hover:text-blue-400' },
+    { icon: FaLinkedinIn, href: 'https://www.linkedin.com/in/fullstack-software-aa01153b3', color: 'hover:text-blue-700' },
+    { icon: FaInstagram, href: 'https://www.instagram.com/fullstack_software?igsh=MWI3b2k0em1mYXdobA%3D%3D&utm_source=qr', color: 'hover:text-pink-600' },
   ];
 
   const quickLinks = [
@@ -64,6 +64,8 @@ const Footer = ({ onCursorChange }) => {
                 <motion.a
                   key={index}
                   href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   whileHover={{ scale: 1.1, y: -2 }}
                   className={`w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center text-gray-400 transition-colors duration-300 ${social.color}`}
                   onMouseEnter={() => onCursorChange('hover')}

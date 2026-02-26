@@ -1,10 +1,10 @@
 // pages/About.js
 import React from 'react';
 import { motion } from 'framer-motion';
-import { 
-  FaUsers, 
-  FaAward, 
-  FaRocket, 
+import {
+  FaUsers,
+  FaAward,
+  FaRocket,
   FaHeart,
   FaLinkedin,
   FaTwitter,
@@ -37,7 +37,7 @@ const About = ({ onCursorChange }) => {
     },
     {
       name: 'Agatesi Chartine',
-      role: 'Admnsistrative Assistant',
+      role: 'Administrative Assistant',
       image: '/api/placeholder/300/300',
       bio: 'Award-winning designer with a passion for user-centered design principles.',
       social: { linkedin: '#', twitter: '#' }
@@ -96,7 +96,7 @@ const About = ({ onCursorChange }) => {
               About <span className="bg-gradient-to-r from-purple-600 to-blue-500 bg-clip-text text-transparent">Us</span>
             </h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-              We are a passionate team of innovators, designers, and developers dedicated to 
+              We are a passionate team of innovators, designers, and developers dedicated to
               creating digital solutions that make a real impact.
             </p>
           </motion.div>
@@ -141,12 +141,12 @@ const About = ({ onCursorChange }) => {
                 Our Story
               </h2>
               <p className="text-lg text-gray-600 mb-6">
-                Founded in 2013, Fullstack Software Ltd started as a small team of passionate 
+                Founded in 2013, Fullstack Software Ltd started as a small team of passionate
                 developers with a vision to create digital solutions that make a difference.
               </p>
               <p className="text-lg text-gray-600 mb-8">
-                Over the years, we've grown into a full-service digital agency, but our core 
-                mission remains the same: to deliver exceptional software that helps businesses 
+                Over the years, we've grown into a full-service digital agency, but our core
+                mission remains the same: to deliver exceptional software that helps businesses
                 thrive in the digital age.
               </p>
               <div className="flex flex-wrap gap-4">
@@ -181,7 +181,7 @@ const About = ({ onCursorChange }) => {
                   </div>
                   <h3 className="text-2xl font-bold mb-4">Award Winning</h3>
                   <p className="opacity-90 mb-6">
-                    Recognized as one of the top software development companies 
+                    Recognized as one of the top software development companies
                     for innovation and excellence.
                   </p>
                   <div className="flex justify-center space-x-8">
