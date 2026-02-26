@@ -7,9 +7,9 @@ import {
   FaRocket,
   FaHeart,
   FaLinkedin,
-  FaTwitter,
   FaGithub
 } from 'react-icons/fa';
+import { FaXTwitter } from 'react-icons/fa6';
 import { SiTypescript, SiJavascript, SiPython } from 'react-icons/si';
 
 const About = ({ onCursorChange }) => {
@@ -294,7 +294,7 @@ const About = ({ onCursorChange }) => {
                       href={member.social.twitter}
                       className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors"
                     >
-                      <FaTwitter className="text-sm" />
+                      <FaXTwitter className="text-sm" />
                     </motion.a>
                   )}
                   {member.social.github && (

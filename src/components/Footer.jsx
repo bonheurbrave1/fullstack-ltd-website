@@ -17,7 +17,7 @@ const Footer = ({ onCursorChange }) => {
 
   const socialLinks = [
     { icon: FaFacebookF, href: '#', color: 'hover:text-blue-600' },
-    { icon: FaXTwitter, href: 'https://x.com/software36770?s=11', color: 'hover:text-blue-400' },
+    { icon: FaXTwitter, href: 'https://x.com/fullstackrw', color: 'hover:text-blue-400' },
     { icon: FaLinkedinIn, href: 'https://www.linkedin.com/in/fullstack-software-aa01153b3', color: 'hover:text-blue-700' },
     { icon: FaInstagram, href: 'https://www.instagram.com/fullstack_software?igsh=MWI3b2k0em1mYXdobA%3D%3D&utm_source=qr', color: 'hover:text-pink-600' },
   ];

@@ -171,7 +171,7 @@ const Contact = ({ onCursorChange }) => {
     {
       icon: FaXTwitter,
       color: "hover:text-blue-400",
-      href: "https://x.com/software36770?s=11",
+      href: "https://x.com/fullstackrw",
       label: "X",
     },
     {
