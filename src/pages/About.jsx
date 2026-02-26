@@ -26,35 +26,35 @@ const About = ({ onCursorChange }) => {
       role: 'Chief Operation Officer',
       image: '/api/placeholder/300/300',
       bio: '15+ years in tech industry. Passionate about building innovative solutions.',
-      social: { linkedin: '#', twitter: '#' }
+      social: {}
     },
     {
       name: 'Jean Ntazinda',
       role: 'Chief Finance Officer',
       image: '/api/placeholder/300/300',
       bio: 'Expert in cloud architecture and scalable systems. Loves solving complex problems.',
-      social: { linkedin: '#', github: '#' }
+      social: {}
     },
     {
       name: 'Agatesi Chartine',
       role: 'Administrative Assistant',
       image: '/api/placeholder/300/300',
       bio: 'Award-winning designer with a passion for user-centered design principles.',
-      social: { linkedin: '#', twitter: '#' }
+      social: {}
     },
     {
       name: 'Bonheur Ndikumwenayo',
       role: 'Lead Developer',
       image: '/api/placeholder/300/300',
       bio: 'Full-stack wizard specializing in React, Node.js, and cloud technologies.',
-      social: { linkedin: '#', github: '#' }
+      social: {}
     },
     {
       name: 'ISHIMWE GHISLAIN',
       role: 'Software Developer',
       image: '/api/placeholder/300/300',
       bio: 'Full-Stack Engineer | Next.js, React, Node | PostgreSQL, MongoDB | TypeScript | Mobile & Blockchain DApps |',
-      social: { linkedin: '#', github: '#' }
+      social: { linkedin: 'https://www.linkedin.com/in/ishimwe-ghislain-b26ba6288', github: 'https://github.com/ishimweghislain?tab=overview' }
     },
   ];
 
@@ -259,7 +259,7 @@ const About = ({ onCursorChange }) => {
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-8">
             {team.map((member, index) => (
               <motion.div
                 key={member.name}
